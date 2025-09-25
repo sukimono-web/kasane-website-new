@@ -171,6 +171,24 @@ app.get('/contact', async (c) => {
   }
 })
 
+app.get('/products', async (c) => {
+  try {
+    const html = readFileSync(join(process.cwd(), 'views/products.html'), 'utf-8')
+    return c.html(html)
+  } catch (error) {
+    return c.html('<h1>Products - 準備中</h1><a href="/">ホームに戻る</a>')
+  }
+})
+
+app.get('/parking', async (c) => {
+  try {
+    const html = readFileSync(join(process.cwd(), 'views/parking.html'), 'utf-8')
+    return c.html(html)
+  } catch (error) {
+    return c.html('<h1>Parking - 準備中</h1><a href="/">ホームに戻る</a>')
+  }
+})
+
 // サーバー起動
 const port = 3000
 console.log(`Server is running on http://localhost:${port}`)

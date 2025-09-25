@@ -8,13 +8,13 @@
     <title>News | Showcase Hotel Kasane</title>
     <meta name="description" content="Showcase Hotel Kasaneのニュースページ。島根県江津市の有福温泉に佇む新しいコンセプトのホテルの最新情報をお届けします。">
     <link rel="icon" href="/img/favicon.ico">
-    
+
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@8.2.2/swiper-bundle.min.css">
 
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://unpkg.com/swiper@8.2.2/swiper-bundle.min.js"></script>
     <script src="/js/wow.min.js"></script>
@@ -24,10 +24,15 @@
 
 <body>
     <header class="header">
+        <div class="header__logo">
+            <a href="/">
+                <img src="/img/logo.png" alt="Showcase Hoterl KANANE">
+            </a>
+        </div>
         <div class="drawer-icon" id="js-drawer">
             <div class="drawer-icon-bars">
-                <div class="drawer-icon-bar1"></div>
-                <div class="drawer-icon-bar2"></div>
+                <div class="drawer-icon-bar1" style="background-color: rgb(35, 24, 21);"></div>
+                <div class="drawer-icon-bar2" style="background-color: rgb(35, 24, 21);"></div>
             </div>
         </div>
 
@@ -38,7 +43,8 @@
                         <img src="/img/drawer_logo.svg" alt="Showcase Hotel KASANE">
                     </div>
                     <div class="drawer__reservation--container">
-                        <a href="https://www3.e-concierge.net/responsive/plan_search.php?htl_id=1554" target="_blank" rel="noopener noreferrer" class="drawer__reservation">Reservation</a>
+                        <a href="https://www3.e-concierge.net/responsive/plan_search.php?htl_id=1554" target="_blank"
+                            rel="noopener noreferrer" class="drawer__reservation">Reservation</a>
                     </div>
                 </div>
                 <div class="drawer__links--container">
@@ -56,7 +62,7 @@
                         <ul class="drawer__links">
                             <li class="menu-item current-menu-item"><a href="/news">News</a></li>
                             <li class="menu-item"><a href="/#contact">Contact</a></li>
-                            <li class="menu-item"><a href="/news/parking">Parking</a></li>
+                            <li class="menu-item"><a href="/parking">Parking</a></li>
                         </ul>
                         <div class="drawer__details--container">
                             <div class="drawer__details">
@@ -68,7 +74,10 @@
                     </div>
                     <div class="drawer__links--wrap">
                         <ul class="drawer__sns--links">
-                            <li class="drawer__sns--link"><a href="https://www.facebook.com/Showcase-Hotel-KASANE-101969295888716/" target="_blank" rel="noopener noreferrer"><img src="/img/icon_facebook-white.svg" alt="facebook"></a></li>
+                            <li class="drawer__sns--link"><a
+                                    href="https://www.facebook.com/Showcase-Hotel-KASANE-101969295888716/"
+                                    target="_blank" rel="noopener noreferrer"><img src="/img/icon_facebook-white.svg"
+                                        alt="facebook"></a></li>
                         </ul>
                     </div>
                 </div>
@@ -77,31 +86,90 @@
     </header>
 
     <main class="main">
-        <div class="page-header">
-            <h1 class="page-title">News</h1>
-        </div>
-
-        <section class="news-detail">
-            <div class="inner">
-                <div class="news-content">
-                    <h2 class="section__title">最新情報</h2>
-                    <ul class="news__lists">
+        <div class="page__contents -dark">
+            <section class="news">
+                <h1 class="section__title -center wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">News</h1>
+                <div class="inner__md">
+                    <ul class="news__lists -archive wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
                         <li class="news__list">
-                            <a href="/news/parking" class="news__list--row">
-                                <div class="news__date"><time datetime="2022-07-28T11:11:59+00:00">2022.7.28</time></div>
+                            <a href="https://web.archive.org/web/20230322065131/https://showcasehotel-kasane.jp/news/%e9%a7%90%e8%bb%8a%e5%a0%b4%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6/"
+                                class="news__list--row">
+                                <div class="news__date"><time datetime="2022-07-28T11:11:59+00:00">2022.7.28</time>
+                                </div>
                                 <p class="news__title">駐車場について</p>
                             </a>
                         </li>
                         <li class="news__list">
-                            <a href="/news/grand-opening" class="news__list--row">
-                                <div class="news__date"><time datetime="2022-07-14T14:31:16+00:00">2022.7.14</time></div>
+                            <a href="https://web.archive.org/web/20230322065131/https://showcasehotel-kasane.jp/news/news01/"
+                                class="news__list--row">
+                                <div class="news__date"><time datetime="2022-07-14T14:31:16+00:00">2022.7.14</time>
+                                </div>
                                 <p class="news__title">7/30（土）、グランドオープン決定！</p>
                             </a>
                         </li>
                     </ul>
+                    <a href="" class="news__readmore wow fadeInUp" data-wow-duration="2s"
+                        data-wow-delay="0.5s">もっと見る</a>
+                </div>
+            </section>
+        </div>
+        <section class="contact" id="contact">
+            <div class="inner">
+                <h2 class="section__title -center -light wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                    Contact</h2>
+                <div class="contact__wrap">
+                    <div class="form wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                        <form action="/contact" method="post">
+                            <ul class="form__lists">
+                                <li class="form__list">
+                                    <dl class="form__dl">
+                                        <dt><label for="yourName">お名前</label></dt>
+                                        <dd><input type="text" name="yourName" id="yourName" required></dd>
+                                    </dl>
+                                </li>
+                                <li class="form__list">
+                                    <dl class="form__dl">
+                                        <dt><label for="yourEmail">メール</label></dt>
+                                        <dd><input type="email" name="yourEmail" id="yourEmail" required></dd>
+                                    </dl>
+                                </li>
+                                <li class="form__list">
+                                    <dl class="form__dl">
+                                        <dt><label for="yourNumber">連絡先</label></dt>
+                                        <dd><input type="tel" name="yourNumber" id="yourNumber"></dd>
+                                    </dl>
+                                </li>
+                                <li class="form__list">
+                                    <dl class="form__dl">
+                                        <dt><label for="yourMessage">内容</label></dt>
+                                        <dd><textarea name="yourMessage" id="yourMessage" rows="10" required></textarea>
+                                        </dd>
+                                    </dl>
+                                </li>
+                            </ul>
+                            <div class="form__check">
+                                <label>
+                                    <input type="checkbox" name="check" value="1" required>
+                                    <span>上記内容でよろしければ「チェック」をつけて<span class="is-nowrap">送信ボタンを押してください</span></span>
+                                </label>
+                            </div>
+                            <div class="form__submit">
+                                <input type="submit" value="送信">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
+        <section class="map wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+            <div class="map__wrap">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3270.643226720486!2d132.19881181596287!3d34.940483680373724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x355a5db6fc4ea5f7%3A0x7560a06c412585f3!2sShowcase%20Hotel%20KASANE!5e0!3m2!1sja!2spa!4v1657788484180!5m2!1sja!2spa"
+                    style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </section>
+
     </main>
 
     <footer class="footer">
@@ -131,11 +199,13 @@
                         <ul class="f-links">
                             <li class="menu-item current-menu-item"><a href="/news">News</a></li>
                             <li class="menu-item"><a href="/#contact">Contact</a></li>
-                            <li class="menu-item"><a href="/news/parking">Parking</a></li>
+                            <li class="menu-item"><a href="/parking">Parking</a></li>
                         </ul>
                         <ul class="f-sns__links">
                             <li class="f-sns__link">
-                                <a href="https://www.facebook.com/Showcase-Hotel-KASANE-101969295888716/" target="_blank" rel="noopener noreferrer"><img src="/img/icon_facebook.svg" alt="facebook"></a>
+                                <a href="https://www.facebook.com/Showcase-Hotel-KASANE-101969295888716/"
+                                    target="_blank" rel="noopener noreferrer"><img src="/img/icon_facebook.svg"
+                                        alt="facebook"></a>
                             </li>
                         </ul>
                     </li>
@@ -144,6 +214,18 @@
         </div>
         <div class="copyright"><small>Showcase Hotel KASANE. ALL RIGHTS RESERVED.</small></div>
     </footer>
+    <div class="reservation-btn">
+        <a href="https://www3.e-concierge.net/responsive/plan_search.php?htl_id=1554" target="_blank"
+            rel="noopener noreferrer">
+            <span class="btn__wrap">
+                <span class="btn-lead">全国旅行支援<br class="is-sp">参画宿</span>
+                <span class="btn__reservation">
+                    <span class="en">Reservation</span><span class="jp">ご予約はこちら</span>
+                </span>
+            </span>
+        </a>
+    </div>
+
 </body>
 
 </html>
