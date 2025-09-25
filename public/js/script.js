@@ -1,9 +1,67 @@
 // Main JavaScript for Showcase Hotel Kasane
 $(document).ready(function() {
     
-    // Loading animation
+    // Loading animation with counter
+    let loadingProgress = 0;
+    let logoFadeStarted = false;
+    
+    // 実際のページ読み込み状況をチェック
+    function checkPageLoad() {
+        const images = document.querySelectorAll('img');
+        const totalImages = images.length;
+        let loadedImages = 0;
+        
+        images.forEach(function(img) {
+            if (img.complete) {
+                loadedImages++;
+            } else {
+                img.addEventListener('load', function() {
+                    loadedImages++;
+                });
+            }
+        });
+        
+        return totalImages > 0 ? (loadedImages / totalImages) * 100 : 100;
+    }
+    
+    const loadingInterval = setInterval(function() {
+        // 実際の読み込み状況とシミュレーションを組み合わせ
+        const realProgress = checkPageLoad();
+        const simulatedProgress = loadingProgress + Math.random() * 8;
+        
+        // より現実的な進行度を計算
+        loadingProgress = Math.min(realProgress * 0.7 + simulatedProgress * 0.3, 100);
+        
+        // カウント表示を更新
+        $('#loading-percentage').text(Math.floor(loadingProgress));
+        
+        // 70%でロゴのフェードアウト開始
+        if (loadingProgress >= 70 && !logoFadeStarted) {
+            logoFadeStarted = true;
+            $('#loading').addClass('logo-fadeout');
+            console.log('Logo fade out started at', Math.floor(loadingProgress) + '%');
+            
+        }
+        
+        // 100%でローディング画面を非表示
+        if (loadingProgress >= 100) {
+            clearInterval(loadingInterval);
+            $('#loading-percentage').text('100');
+            
+            setTimeout(function() {
+                $('#loading').fadeOut(1000, function() {
+                    console.log('Loading screen hidden');
+                });
+            }, 800);
+        }
+        
+    }, 60); // 60ms間隔で更新
+    
+    // 最低でも2秒は表示
     setTimeout(function() {
-        $('#loading').fadeOut(1000);
+        if (loadingProgress < 100) {
+            loadingProgress = Math.max(loadingProgress, 85);
+        }
     }, 2000);
     
     // Drawer menu

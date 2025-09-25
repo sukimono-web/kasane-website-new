@@ -2553,6 +2553,18 @@ span.rooms__symbol {
   background: url(/img/icon_stop.png) no-repeat center center/contain;
 }
 
+/* #loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  background: #fff;
+  text-align: center;
+} */
+
 #loading {
   position: fixed;
   top: 0;
@@ -2563,14 +2575,72 @@ span.rooms__symbol {
   z-index: 99999;
   background: #fff;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#loading_logo {
+#loading_text {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all 0.8s ease;
+}
+
+/* ロゴフェードアウト後のカウント位置 */
+#loading.logo-fadeout #loading_text {
+  bottom: 50%;
+  transform: translateX(-50%) translateY(50%);
+}
+
+.loading-counter {
+  font-size: 2.4rem;
+  font-family: "Century Gothic", sans-serif !important;
+  color: rgb(180, 180, 180);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+#loading-percentage {
+  font-weight: 500;
+}
+
+/* #loading_logo {
   position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -100%);
           transform: translate(-50%, -100%);
+} */
+
+#loading_logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  transition: all 0.8s ease;
+}
+
+/* Logo fade out animation when loading reaches 70% */
+#loading.logo-fadeout #loading_logo {
+  animation: logoFadeOut 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes logoFadeOut {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -100%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -120%) scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -150%) scale(0.9);
+  }
 }
 
 #loading .kvArea {
