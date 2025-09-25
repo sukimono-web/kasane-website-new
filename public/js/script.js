@@ -31,23 +31,49 @@ $(document).ready(function() {
     }
     
     // Swiper initialization
-    if (typeof Swiper !== 'undefined') {
-        const conceptSwiper = new Swiper('.swiper-concept', {
-            loop: true,
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.swiper-concept__pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
-    }
+    console.log('Swiper available:', typeof Swiper !== 'undefined');
+    
+    // Swiper初期化を遅延実行
+    setTimeout(function() {
+        if (typeof Swiper !== 'undefined') {
+            console.log('Initializing Swiper...');
+            const conceptSwiper = new Swiper('.swiper-concept', {
+                loop: true,
+                // 自動スクロールを無効化
+                autoplay: false,
+                pagination: {
+                    el: '.swiper-concept__pagination',
+                    clickable: false, // クリック機能を無効化
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                slidesPerView: 1,
+                spaceBetween: 30,
+                breakpoints: {
+                    768: {
+                        slidesPerView: 1,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 1,
+                        spaceBetween: 30,
+                    },
+                },
+                on: {
+                    init: function () {
+                        console.log('Swiper initialized successfully');
+                    },
+                    slideChange: function () {
+                        console.log('Slide changed');
+                    }
+                }
+            });
+        } else {
+            console.error('Swiper is not loaded');
+        }
+    }, 1000);
     
     // Modal functionality
     $('.modal-open').click(function() {
@@ -106,8 +132,10 @@ $(document).ready(function() {
     $(window).scroll(function() {
         if ($(this).scrollTop() > 100) {
             $('.header').addClass('scrolled');
+            $('#js-drawer').addClass('is-color');
         } else {
             $('.header').removeClass('scrolled');
+            $('#js-drawer').removeClass('is-color');
         }
     });
     
@@ -176,13 +204,23 @@ $(document).ready(function() {
         $(this).find('.tooltip').remove();
     });
     
-    // Parallax effect for hero section
+    // Parallax effect for hero section (修正版)
+    // パララックス効果を無効化する場合は以下のコメントアウトを解除
+    /*
     $(window).scroll(function() {
         const scrolled = $(this).scrollTop();
         const parallax = $('.mv_bg');
-        const speed = scrolled * 0.5;
-        parallax.css('transform', 'translateY(' + speed + 'px)');
+        const speed = scrolled * 0.3; // 速度を調整
+        
+        // ビューポート内にある場合のみパララックス効果を適用
+        if (scrolled < $(window).height()) {
+            parallax.css('transform', 'translateY(' + speed + 'px)');
+        } else {
+            // ビューポート外に出たら元の位置に戻す
+            parallax.css('transform', 'translateY(0)');
+        }
     });
+    */
     
     // Counter animation
     function animateCounter(element, target) {
@@ -250,4 +288,18 @@ $(document).ready(function() {
     
     // Initialize everything
     console.log('Showcase Hotel Kasane website initialized');
+    
+    // Swiper要素の存在確認
+    setTimeout(function() {
+        const swiperElement = document.querySelector('.swiper-concept');
+        const swiperSlides = document.querySelectorAll('.swiper-slide');
+        console.log('Swiper element found:', swiperElement);
+        console.log('Swiper slides found:', swiperSlides.length);
+        
+        if (swiperElement && swiperSlides.length > 0) {
+            console.log('Swiper HTML structure is correct');
+        } else {
+            console.error('Swiper HTML structure is missing or incorrect');
+        }
+    }, 2000);
 });
