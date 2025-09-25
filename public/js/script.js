@@ -11,24 +11,47 @@ $(document).ready(function() {
         e.preventDefault();
         e.stopPropagation();
         console.log('Drawer icon clicked');
-        $('.drawer-bg').toggleClass('is-active');
-        $(this).toggleClass('active');
+        
+        const $drawerIcon = $(this);
+        const $drawerBg = $('.drawer-bg');
+        
+        // アニメーションの状態を確認
+        const isActive = $drawerIcon.hasClass('active');
+        
+        if (isActive) {
+            // メニューを閉じる
+            $drawerBg.removeClass('is-active');
+            $drawerIcon.removeClass('active');
+            console.log('Closing drawer menu');
+        } else {
+            // メニューを開く
+            $drawerIcon.addClass('active');
+            // 少し遅延させてアイコンのアニメーションを先に実行
+            setTimeout(function() {
+                $drawerBg.addClass('is-active');
+            }, 150);
+            console.log('Opening drawer menu');
+        }
     });
     
     $('.drawer-bg').click(function(e) {
         if (e.target === this) {
             console.log('Drawer background clicked');
-            $(this).removeClass('is-active');
-            $('#js-drawer').removeClass('active');
+            closeDrawerMenu();
         }
     });
     
     // Close drawer when clicking on links
     $('.drawer__links a').click(function() {
         console.log('Drawer link clicked');
+        closeDrawerMenu();
+    });
+    
+    // ドロワーメニューを閉じる関数
+    function closeDrawerMenu() {
         $('.drawer-bg').removeClass('is-active');
         $('#js-drawer').removeClass('active');
-    });
+    }
     
     // WOW.js initialization
     if (typeof WOW !== 'undefined') {
@@ -174,8 +197,7 @@ $(document).ready(function() {
     // Close mobile menu when clicking outside
     $(document).click(function(e) {
         if (!$(e.target).closest('.drawer-icon, .drawer-bg').length) {
-            $('.drawer-icon').removeClass('active');
-            $('.drawer-bg').removeClass('is-active');
+            closeDrawerMenu();
         }
     });
     

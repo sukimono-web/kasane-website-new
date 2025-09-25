@@ -546,16 +546,20 @@ a:hover {
 .drawer-icon.is-active.is-color .drawer-icon-bar2 {
   background-color: #fff;
 }
-.drawer-icon.is-active .drawer-icon-bar1 {
+
+
+/* アクティブ状態でのアニメーション */
+.drawer-icon.active .drawer-icon-bar1 {
   top: 50%;
-  -webkit-transform: translateY(-50%) rotate(-45deg);
-          transform: translateY(-50%) rotate(-45deg);
+  transform: translateY(-50%) rotate(45deg);
 }
-.drawer-icon.is-active .drawer-icon-bar2 {
+
+.drawer-icon.active .drawer-icon-bar2 {
   bottom: 50%;
-  -webkit-transform: translateY(50%) rotate(45deg);
-          transform: translateY(50%) rotate(45deg);
+  transform: translateY(50%) rotate(-45deg);
 }
+
+
 .drawer-icon.is-color .drawer-icon-bar1,
 .drawer-icon.is-color .drawer-icon-bar2 {
   background-color: #231815;
@@ -567,15 +571,18 @@ a:hover {
   height: 17px;
 }
 
+
+
 .drawer-icon-bar1,
 .drawer-icon-bar2 {
   position: absolute;
   width: 100%;
   height: 2px;
   background-color: #fff;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
 }
+
 
 .drawer-icon-bar1 {
   top: 0;
@@ -663,7 +670,7 @@ a:hover {
 .drawer__reservation {
   display: block;
   font-size: 1.09em;
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   color: #000;
   text-align: center;
   background-color: #fff;
@@ -750,7 +757,7 @@ a:hover {
   white-space: nowrap;
   padding-left: 1em;
   line-height: 2.6363636364;
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   position: relative;
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
@@ -803,7 +810,7 @@ a:hover {
   margin-top: 0.63em;
   display: block;
   font-size: 1.59em;
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
@@ -951,7 +958,7 @@ a:hover {
   display: block;
   color: #fff;
   font-size: 0.7em;
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   font-weight: 400;
   margin-bottom: 0.5em;
 }
@@ -1303,7 +1310,7 @@ br.is-sp {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   white-space: nowrap;
   color: #C7C7C7;
   font-size: min(34 / 1920 * 100vw, 3.4rem);
@@ -1829,7 +1836,7 @@ br.is-sp {
 
 .f-tel a {
   display: block;
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   font-size: 3.2rem;
   margin-top: 0.5em;
 }
@@ -1865,7 +1872,7 @@ br.is-sp {
   font-size: 1.3rem;
   line-height: 2.5;
   letter-spacing: 0.105em;
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   padding-left: 1.54em;
   position: relative;
   -webkit-transition: opacity 0.3s ease;
@@ -2056,7 +2063,7 @@ span.rooms__symbol {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   white-space: nowrap;
   color: #C7C7C7;
   font-size: min(34 / 1920 * 100vw, 3.4rem);
@@ -2491,7 +2498,7 @@ span.rooms__symbol {
   text-align: center;
   font-size: 3.4rem;
   letter-spacing: 0.195em;
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   padding: 100px 0 150px;
 }
 
