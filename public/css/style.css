@@ -560,6 +560,14 @@ a:hover {
 }
 
 
+
+/* アクティブ状態では常に白（バツ印の時） */
+.drawer-icon.active .drawer-icon-bar1,
+.drawer-icon.active .drawer-icon-bar2 {
+  background-color: #fff !important;
+}
+
+/* スクロール時の色（平行線状態） */
 .drawer-icon.is-color .drawer-icon-bar1,
 .drawer-icon.is-color .drawer-icon-bar2 {
   background-color: #231815;
