@@ -109,7 +109,7 @@ a:hover {
 .section__title {
   font-size: 3.4rem;
   line-height: 1.2058823529;
-  font-family: century-gothic, sans-serif;
+  font-family: "Century Gothic", sans-serif !important;
   color: #505050;
 }
 @media screen and (max-width: 1000px) {
