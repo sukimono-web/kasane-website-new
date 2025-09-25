@@ -7,21 +7,26 @@ $(document).ready(function() {
     }, 2000);
     
     // Drawer menu
-    $('#js-drawer').click(function() {
-        $('.drawer-bg').fadeToggle();
+    $('#js-drawer').click(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Drawer icon clicked');
+        $('.drawer-bg').toggleClass('is-active');
         $(this).toggleClass('active');
     });
     
     $('.drawer-bg').click(function(e) {
         if (e.target === this) {
-            $(this).fadeOut();
+            console.log('Drawer background clicked');
+            $(this).removeClass('is-active');
             $('#js-drawer').removeClass('active');
         }
     });
     
     // Close drawer when clicking on links
     $('.drawer__links a').click(function() {
-        $('.drawer-bg').fadeOut();
+        console.log('Drawer link clicked');
+        $('.drawer-bg').removeClass('is-active');
         $('#js-drawer').removeClass('active');
     });
     
@@ -166,17 +171,11 @@ $(document).ready(function() {
         });
     }
     
-    // Mobile menu toggle
-    $('.drawer-icon').click(function() {
-        $(this).toggleClass('active');
-        $('.drawer-bg').toggleClass('active');
-    });
-    
     // Close mobile menu when clicking outside
     $(document).click(function(e) {
         if (!$(e.target).closest('.drawer-icon, .drawer-bg').length) {
             $('.drawer-icon').removeClass('active');
-            $('.drawer-bg').removeClass('active');
+            $('.drawer-bg').removeClass('is-active');
         }
     });
     
@@ -288,6 +287,20 @@ $(document).ready(function() {
     
     // Initialize everything
     console.log('Showcase Hotel Kasane website initialized');
+    
+    // Drawer menu debug
+    setTimeout(function() {
+        const drawerIcon = document.getElementById('js-drawer');
+        const drawerBg = document.querySelector('.drawer-bg');
+        console.log('Drawer icon found:', drawerIcon);
+        console.log('Drawer background found:', drawerBg);
+        
+        if (drawerIcon && drawerBg) {
+            console.log('Drawer menu elements are ready');
+        } else {
+            console.error('Drawer menu elements are missing');
+        }
+    }, 1000);
     
     // Swiper要素の存在確認
     setTimeout(function() {
