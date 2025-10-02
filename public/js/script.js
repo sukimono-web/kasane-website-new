@@ -4,6 +4,9 @@ $(document).ready(function() {
     // Loading animation with counter
     let loadingProgress = 0;
     let logoFadeStarted = false;
+    let loadingComplete = false;
+    let startTime = Date.now();
+    const minLoadingTime = 4000; // 最低5秒表示
     
     // 実際のページ読み込み状況をチェック
     function checkPageLoad() {
@@ -25,12 +28,17 @@ $(document).ready(function() {
     }
     
     const loadingInterval = setInterval(function() {
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - startTime;
+        
         // 実際の読み込み状況とシミュレーションを組み合わせ
         const realProgress = checkPageLoad();
-        const simulatedProgress = loadingProgress + Math.random() * 8;
         
-        // より現実的な進行度を計算
-        loadingProgress = Math.min(realProgress * 0.7 + simulatedProgress * 0.3, 100);
+        // 時間ベースの進行度を計算（5秒で100%になるように調整）
+        const timeBasedProgress = Math.min((elapsedTime / minLoadingTime) * 100, 100);
+        
+        // より現実的な進行度を計算（時間ベースを重視）
+        loadingProgress = Math.min(realProgress * 0.3 + timeBasedProgress * 0.7, 100);
         
         // カウント表示を更新
         $('#loading-percentage').text(Math.floor(loadingProgress));
@@ -40,11 +48,11 @@ $(document).ready(function() {
             logoFadeStarted = true;
             $('#loading').addClass('logo-fadeout');
             console.log('Logo fade out started at', Math.floor(loadingProgress) + '%');
-            
         }
         
-        // 100%でローディング画面を非表示
-        if (loadingProgress >= 100) {
+        // 100%でローディング画面を非表示（最低表示時間を考慮）
+        if (loadingProgress >= 100 && elapsedTime >= minLoadingTime && !loadingComplete) {
+            loadingComplete = true;
             clearInterval(loadingInterval);
             $('#loading-percentage').text('100');
             
@@ -55,14 +63,7 @@ $(document).ready(function() {
             }, 800);
         }
         
-    }, 60); // 60ms間隔で更新
-    
-    // 最低でも2秒は表示
-    setTimeout(function() {
-        if (loadingProgress < 100) {
-            loadingProgress = Math.max(loadingProgress, 85);
-        }
-    }, 2000);
+    }, 100); // 100ms間隔で更新（少し遅くして滑らかに）
     
     // Drawer menu
     $('#js-drawer').click(function(e) {

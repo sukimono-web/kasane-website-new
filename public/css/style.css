@@ -2591,7 +2591,7 @@ span.rooms__symbol {
 
 #loading_text {
   position: absolute;
-  bottom: 30%;
+  bottom: 45%;
   left: 50%;
   transform: translateX(-50%);
   transition: all 0.8s ease;
@@ -2599,8 +2599,8 @@ span.rooms__symbol {
 
 /* ロゴフェードアウト後のカウント位置 */
 #loading.logo-fadeout #loading_text {
-  bottom: 50%;
-  transform: translateX(-50%) translateY(50%);
+  bottom: 45%;
+  transform: translateX(-50%) translateY(45%);
 }
 
 .loading-counter {
