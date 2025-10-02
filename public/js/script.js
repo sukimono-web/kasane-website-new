@@ -174,20 +174,21 @@ $(document).ready(function() {
     // BGM functionality
     const audio = document.getElementById('js-audio');
     const bgmButton = document.getElementById('js-bgm');
+    const bgmIcon = bgmButton ? bgmButton.querySelector('.bgm__icon') : null;
     let isPlaying = false;
-    
-    if (audio && bgmButton) {
-        bgmButton.addEventListener('click', function() {
-            if (isPlaying) {
-                audio.pause();
-                bgmButton.classList.remove('playing');
-                isPlaying = false;
-            } else {
-                audio.play();
-                bgmButton.classList.add('playing');
-                isPlaying = true;
-            }
-        });
+
+    if (audio && bgmButton && bgmIcon) {
+    bgmButton.addEventListener('click', function() {
+        if (isPlaying) {
+        audio.pause();
+        bgmIcon.classList.remove('bgm__icon--stop');
+        isPlaying = false;
+        } else {
+        audio.play();
+        bgmIcon.classList.add('bgm__icon--stop');
+        isPlaying = true;
+        }
+    });
     }
     
     // Smooth scroll for anchor links
