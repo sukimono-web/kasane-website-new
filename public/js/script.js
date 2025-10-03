@@ -6,7 +6,7 @@ $(document).ready(function() {
     let logoFadeStarted = false;
     let loadingComplete = false;
     let startTime = Date.now();
-    const minLoadingTime = 4000; // 最低5秒表示
+    const minLoadingTime = 4000; // 最低4秒表示
     
     // 実際のページ読み込み状況をチェック
     function checkPageLoad() {
@@ -59,6 +59,30 @@ $(document).ready(function() {
             setTimeout(function() {
                 $('#loading').fadeOut(1000, function() {
                     console.log('Loading screen hidden');
+                    // ローディング画面非表示後にWOW.jsを初期化
+                    setTimeout(function() {
+                        initWOW();
+                        // 少し遅延してから再同期
+                        setTimeout(function() {
+                            if (wowInstance) {
+                                wowInstance.sync();
+                                console.log('WOW.js synced after loading screen');
+                                
+                                // 手動でアニメーションをトリガー（デバッグ用）
+                                const wowElements = document.querySelectorAll('.wow');
+                                wowElements.forEach((element, index) => {
+                                    const rect = element.getBoundingClientRect();
+                                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                                    console.log(`Element ${index} visible:`, isVisible, rect);
+                                    
+                                    if (isVisible && !element.classList.contains('animated')) {
+                                        element.classList.add('animated', 'fadeInUp');
+                                        console.log(`Manually triggered animation for element ${index}`);
+                                    }
+                                });
+                            }
+                        }, 200);
+                    }, 100);
                 });
             }, 800);
         }
@@ -113,9 +137,35 @@ $(document).ready(function() {
     }
     
     // WOW.js initialization
-    if (typeof WOW !== 'undefined') {
-        new WOW().init();
+    let wowInstance = null;
+    
+    function initWOW() {
+        if (typeof WOW !== 'undefined') {
+            wowInstance = new WOW({
+                boxClass: 'wow',
+                animateClass: 'animated',
+                offset: 0,
+                mobile: true,
+                live: true,
+                scrollContainer: null
+            });
+            wowInstance.init();
+            console.log('WOW.js initialized');
+            
+            // デバッグ用：WOW要素の数を確認
+            const wowElements = document.querySelectorAll('.wow');
+            console.log('WOW elements found:', wowElements.length);
+            
+            // 各要素の状態を確認
+            wowElements.forEach((element, index) => {
+                console.log(`Element ${index}:`, element.className, element.getBoundingClientRect());
+            });
+        } else {
+            console.error('WOW.js is not loaded');
+        }
     }
+    
+    // 初期化はローディング画面後に実行（後で移動）
     
     // Swiper initialization
     console.log('Swiper available:', typeof Swiper !== 'undefined');
@@ -174,21 +224,22 @@ $(document).ready(function() {
     // BGM functionality
     const audio = document.getElementById('js-audio');
     const bgmButton = document.getElementById('js-bgm');
-    const bgmIcon = bgmButton ? bgmButton.querySelector('.bgm__icon') : null;
     let isPlaying = false;
-
-    if (audio && bgmButton && bgmIcon) {
-    bgmButton.addEventListener('click', function() {
-        if (isPlaying) {
-        audio.pause();
-        bgmIcon.classList.remove('bgm__icon--stop');
-        isPlaying = false;
-        } else {
-        audio.play();
-        bgmIcon.classList.add('bgm__icon--stop');
-        isPlaying = true;
-        }
-    });
+    
+    if (audio && bgmButton) {
+        bgmButton.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                bgmButton.classList.remove('playing');
+                bgmButton.classList.add('stopped');
+                isPlaying = false;
+            } else {
+                audio.play();
+                bgmButton.classList.add('playing');
+                bgmButton.classList.remove('stopped');
+                isPlaying = true;
+            }
+        });
     }
     
     // Smooth scroll for anchor links
@@ -224,6 +275,11 @@ $(document).ready(function() {
         } else {
             $('.header').removeClass('scrolled');
             $('#js-drawer').removeClass('is-color');
+        }
+        
+        // WOW.jsを再同期（スクロール時に）
+        if (wowInstance) {
+            wowInstance.sync();
         }
     });
     
