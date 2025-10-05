@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
-import { serve } from '@hono/node-server'
-import { readFileSync, existsSync } from 'fs'
-import { join } from 'path'
+// import { serve } from '@hono/node-server'
+// import { readFileSync, existsSync } from 'fs'
+// import { join } from 'path'
 
 const app = new Hono()
 
@@ -197,3 +197,5 @@ serve({
   fetch: app.fetch,
   port,
 })
+// Cloudflare Workers用のエクスポート
+export default app
