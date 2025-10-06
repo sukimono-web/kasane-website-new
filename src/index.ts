@@ -8,68 +8,61 @@ app.use('*', async (c, next) => {
   await next()
 })
 
+// HTMLファイルを返すヘルパー関数
+async function serveHTML(c: any, filename: string, fallbackContent: string) {
+  try {
+    // ASSETS経由でファイルを取得
+    const response = await c.env.ASSETS.fetch(new URL(filename, c.req.url))
+    if (response.ok) {
+      const html = await response.text()
+      return c.html(html)
+    }
+    return c.html(fallbackContent)
+  } catch (error) {
+    console.error(`Error loading ${filename}:`, error)
+    return c.html(fallbackContent)
+  }
+}
+
 // ルーティング設定
 app.get('/', async (c) => {
-  return c.html(`
-    <!DOCTYPE html>
-    <html lang="ja">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Showcase Hotel KASANE</title>
-    </head>
-    <body>
-      <h1>Showcase Hotel KASANE</h1>
-      <p>現在開発中です。</p>
-      <nav>
-        <ul>
-          <li><a href="/concept">Concept</a></li>
-          <li><a href="/room">Room</a></li>
-          <li><a href="/bar">Bar</a></li>
-          <li><a href="/news">News</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/products">Products</a></li>
-          <li><a href="/parking">Parking</a></li>
-        </ul>
-      </nav>
-    </body>
-    </html>
+  return serveHTML(c, 'index.html', `
+    <h1>Showcase Hotel KASANE</h1>
+    <p>index.html ファイルが見つかりません。</p>
   `)
 })
 
 app.get('/concept', async (c) => {
-  return c.html('<h1>Concept - 準備中</h1><a href="/">ホームに戻る</a>')
+  return serveHTML(c, 'concept.html', '<h1>Concept - 準備中</h1><a href="/">ホームに戻る</a>')
 })
 
 app.get('/room', async (c) => {
-  return c.html('<h1>Room - 準備中</h1><a href="/">ホームに戻る</a>')
+  return serveHTML(c, 'room.html', '<h1>Room - 準備中</h1><a href="/">ホームに戻る</a>')
 })
 
 app.get('/bar', async (c) => {
-  return c.html('<h1>Bar - 準備中</h1><a href="/">ホームに戻る</a>')
+  return serveHTML(c, 'bar.html', '<h1>Bar - 準備中</h1><a href="/">ホームに戻る</a>')
 })
 
 app.get('/news', async (c) => {
-  return c.html('<h1>News - 準備中</h1><a href="/">ホームに戻る</a>')
+  return serveHTML(c, 'news.html', '<h1>News - 準備中</h1><a href="/">ホームに戻る</a>')
 })
 
 app.get('/contact', async (c) => {
-  return c.html('<h1>Contact - 準備中</h1><a href="/">ホームに戻る</a>')
+  return serveHTML(c, 'contact.html', '<h1>Contact - 準備中</h1><a href="/">ホームに戻る</a>')
 })
 
 app.get('/products', async (c) => {
-  return c.html('<h1>Products - 準備中</h1><a href="/">ホームに戻る</a>')
+  return serveHTML(c, 'products.html', '<h1>Products - 準備中</h1><a href="/">ホームに戻る</a>')
 })
 
 app.get('/parking', async (c) => {
-  return c.html('<h1>Parking - 準備中</h1><a href="/">ホームに戻る</a>')
+  return serveHTML(c, 'parking.html', '<h1>Parking - 準備中</h1><a href="/">ホームに戻る</a>')
 })
 
-// 404ハンドラーは最後に定義
+// 404ハンドラー
 app.notFound((c) => {
-  const url = c.req.url
-  console.log('Page not found:', url)
-  return c.text('Page not found: ' + url, 404)
+  return c.text('Page not found: ' + c.req.url, 404)
 })
 
 export default app
