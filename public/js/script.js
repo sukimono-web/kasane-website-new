@@ -224,9 +224,10 @@ $(document).ready(function() {
     // BGM functionality
     const audio = document.getElementById('js-audio');
     const bgmButton = document.getElementById('js-bgm');
+    const bgmIcon = bgmButton.querySelector('.bgm__icon'); // アイコン要素を取得
     let isPlaying = false;
 
-    if (audio && bgmButton) {
+    if (audio && bgmButton && bgmIcon) {
         bgmButton.addEventListener('click', function() {
             if (isPlaying) {
                 audio.pause();
