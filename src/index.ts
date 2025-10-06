@@ -8,13 +8,6 @@ app.use('*', async (c, next) => {
   await next()
 })
 
-// 404ハンドラー
-app.notFound((c) => {
-  const url = c.req.url
-  console.log('Page not found:', url)
-  return c.text('Page not found: ' + url, 404)
-})
-
 // ルーティング設定
 app.get('/', async (c) => {
   return c.html(`
@@ -70,6 +63,13 @@ app.get('/products', async (c) => {
 
 app.get('/parking', async (c) => {
   return c.html('<h1>Parking - 準備中</h1><a href="/">ホームに戻る</a>')
+})
+
+// 404ハンドラーは最後に定義
+app.notFound((c) => {
+  const url = c.req.url
+  console.log('Page not found:', url)
+  return c.text('Page not found: ' + url, 404)
 })
 
 export default app
