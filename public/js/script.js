@@ -236,8 +236,8 @@ $(document).ready(function() {
                 isPlaying = false;
             } else {
                 audio.play();
-                bgmIcon.classList.remove('bgm__icon--stop');
-                bgmIcon.classList.add('bgm__icon');
+                bgmIcon.classList.remove('bgm__icon');
+                bgmIcon.classList.add('bgm__icon--stop');
                 isPlaying = true;
             }
         });
