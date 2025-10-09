@@ -2537,18 +2537,21 @@ span.rooms__symbol {
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   width: 18px;
   height: 18px;
   background: url(/img/icon_music.png) no-repeat center center/contain;
 }
-
+/* ボタンがplayingクラスを持つとき、アイコンを停止アイコンに変更 */
+.playing .bgm__icon::before {
+  background: url(/img/icon_stop.png) no-repeat center center/contain;
+}
 .bgm__icon--stop {
   width: 30px;
   height: 30px;
   position: relative;
 }
+
 .bgm__icon--stop::before {
   content: "";
   position: absolute;

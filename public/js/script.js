@@ -224,20 +224,19 @@ $(document).ready(function() {
     // BGM functionality
     const audio = document.getElementById('js-audio');
     const bgmButton = document.getElementById('js-bgm');
-    const bgmIcon = bgmButton.querySelector('.bgm__icon'); // アイコン要素を取得
     let isPlaying = false;
-
-    if (audio && bgmButton && bgmIcon) {
+    
+    if (audio && bgmButton) {
         bgmButton.addEventListener('click', function() {
             if (isPlaying) {
                 audio.pause();
-                bgmIcon.classList.remove('bgm__icon');
-                bgmIcon.classList.add('bgm__icon--stop');
+                bgmButton.classList.remove('playing');
+                bgmButton.classList.add('stopped');
                 isPlaying = false;
             } else {
                 audio.play();
-                bgmIcon.classList.remove('bgm__icon');
-                bgmIcon.classList.add('bgm__icon--stop');
+                bgmButton.classList.add('playing');
+                bgmButton.classList.remove('stopped');
                 isPlaying = true;
             }
         });
