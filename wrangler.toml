@@ -8,3 +8,9 @@ compatibility_flags = ["nodejs_compat"]
 [assets]
 directory = "./public"
 binding = "ASSETS"
+
+[vars]
+STRAPI_URL = "https://<your-strapi-cloud>.api"  # 環境に合わせて変更
+STRAPI_API_TOKEN = ""  # 管理画面で発行した API Token
+CLIENT_URL = "https://your-frontend-site"  # Preview 用
+PREVIEW_SECRET = "random-preview-secret"
