@@ -2413,6 +2413,9 @@ span.rooms__symbol {
 }
 .s-news__contents img {
   margin-top: 30px;
+  width: 100%;
+  height: auto !important;
+  object-fit: contain;  
 }
 .s-news__contents p {
   margin-top: 64px;
