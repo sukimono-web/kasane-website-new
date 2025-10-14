@@ -207,11 +207,50 @@ $(document).ready(function() {
                     }
                 }
             });
+        
+        // Rooms Swiper (roomsページ用)
+            const roomsSwiperElement = document.querySelector('.swiper-rooms');
+            if (roomsSwiperElement) {
+                const roomsSwiper = new Swiper('.swiper-rooms', {
+                    loop: true,
+                    autoplay: {
+                        delay: 3500,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true
+                    },
+                    speed: 1600, // フェードをゆっくりに
+                    pagination: {
+                        el: '.swiper-rooms__pagination',
+                        clickable: true,
+                        bulletClass: 'swiper-pagination-bullet',
+                        bulletActiveClass: 'swiper-pagination-bullet-active',
+                    },
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    effect: 'fade',
+                    fadeEffect: {
+                        crossFade: true
+                    },
+                    // ユーザー操作可にしつつオートプレイ継続
+                    allowTouchMove: true,
+                    on: {
+                        init: function () {
+                            console.log('Rooms Swiper initialized successfully');
+                        },
+                        slideChange: function () {
+                            console.log('Rooms slide changed');
+                        }
+                    }
+                });
+            }
         } else {
             console.error('Swiper is not loaded');
         }
     }, 1000);
+
     
+   
+
     // Modal functionality
     $('.modal-open').click(function() {
         $(this).next('.s-column4__modal--base').fadeIn();
