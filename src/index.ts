@@ -60,6 +60,10 @@ app.get('/parking', async (c) => {
   return serveHTML(c, 'parking.html', '<h1>Parking - 準備中</h1><a href="/">ホームに戻る</a>')
 })
 
+app.get('/grand-opening', async (c) => {
+  return serveHTML(c, 'grand-opening.html', '<h1>grand-opening - 準備中</h1><a href="/">ホームに戻る</a>')
+})
+
 // 404ハンドラー
 app.notFound((c) => {
   return c.text('Page not found: ' + c.req.url, 404)

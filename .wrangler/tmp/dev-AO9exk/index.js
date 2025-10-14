@@ -1589,6 +1589,9 @@ app.get("/products", async (c) => {
 app.get("/parking", async (c) => {
   return serveHTML(c, "parking.html", '<h1>Parking - \u6E96\u5099\u4E2D</h1><a href="/">\u30DB\u30FC\u30E0\u306B\u623B\u308B</a>');
 });
+app.get("/grand-opening", async (c) => {
+  return serveHTML(c, "grand-opening.html", '<h1>grand-opening - \u6E96\u5099\u4E2D</h1><a href="/">\u30DB\u30FC\u30E0\u306B\u623B\u308B</a>');
+});
 app.notFound((c) => {
   return c.text("Page not found: " + c.req.url, 404);
 });
