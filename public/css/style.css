@@ -109,7 +109,7 @@ a:hover {
 .section__title {
   font-size: 3.4rem;
   line-height: 1.2058823529;
-  font-family: "Century Gothic", sans-serif !important;
+  font-family: "Montserrat", "Century Gothic", sans-serif !important;
   color: #505050;
 }
 @media screen and (max-width: 1000px) {
@@ -2411,6 +2411,11 @@ span.rooms__symbol {
   margin-top: 16px;
   font-size: 1.4rem;
 }
+
+.s-news__img{
+  margin: 0;
+}
+
 .s-news__contents img {
   margin-top: 30px;
   width: 100%;
