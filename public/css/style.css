@@ -681,7 +681,7 @@ a:hover {
 .drawer__reservation {
   display: block;
   font-size: 1.09em;
-  font-family: "Century Gothic", sans-serif !important;
+  font-family:  "Century Gothic", sans-serif !important;
   color: #000;
   text-align: center;
   background-color: #fff;
@@ -969,7 +969,7 @@ a:hover {
   display: block;
   color: #fff;
   font-size: 0.7em;
-  font-family: "Century Gothic", sans-serif !important;
+  font-family:  "Outfit","Century Gothic", sans-serif !important;
   font-weight: 400;
   margin-bottom: 0.5em;
 }
