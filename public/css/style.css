@@ -106,29 +106,14 @@ a:hover {
   margin-left: auto;
 }
 
-@font-face {
-  font-family: "Century Gothic";
-  src: url('/fonts/century-gothic.woff2') format('woff2'),
-       url('/fonts/century-gothic.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
-@font-face {
-  font-family: "Century Gothic";
-  src: url('/fonts/century-gothic-bold.woff2') format('woff2'),
-       url('/fonts/century-gothic-bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
 
 .section__title {
   font-size: 3.4rem;
   line-height: 1.2058823529;
-  font-family: "Century Gothic", sans-serif !important;
+  font-family: "Outfit","Century Gothic", sans-serif !important;
   color: #505050;
+  font-weight: 250;
 }
 @media screen and (max-width: 1000px) {
   .section__title {
