@@ -1,6 +1,11 @@
 /* Animate.css - WOW.js用のアニメーション */
 .wow {
-    /* visibility: hidden; */
+    visibility: hidden; /* スクロール前は非表示 */
+}
+
+/* アニメーション実行後は表示 */
+.animated {
+    visibility: visible !important;
 }
 
 .fadeInUp {
@@ -19,7 +24,6 @@
         transform: translate3d(0, 0, 0);
     }
 }
-
 .fadeIn {
     animation-name: fadeIn;
     animation-duration: 1s;

@@ -166,7 +166,15 @@ $(document).ready(function() {
     }
     
     // 初期化はローディング画面後に実行（後で移動）
-    
+       // ローディング画面の有無を確認
+    const loadingElement = document.getElementById('loading');
+    if (!loadingElement) {
+        // ローディング画面がないページでは即座に初期化
+        setTimeout(function() {
+            initWOW();
+            console.log('WOW.js initialized immediately (no loading screen)');
+        }, 100);
+    }
     // Swiper initialization
     console.log('Swiper available:', typeof Swiper !== 'undefined');
     
