@@ -6,7 +6,40 @@ $(document).ready(function() {
     let logoFadeStarted = false;
     let loadingComplete = false;
     let startTime = Date.now();
-    const minLoadingTime = 4000; // 最低4秒表示
+    const minLoadingTime = 3000; // 最低3秒表示に短縮
+    
+    // WOW.js initialization
+    let wowInstance = null;
+    
+    function initWOW() {
+        if (typeof WOW !== 'undefined') {
+            wowInstance = new WOW({
+                boxClass: 'wow',
+                animateClass: 'animated',
+                offset: 100,
+                mobile: true,
+                live: true,
+                scrollContainer: null
+            });
+            wowInstance.init();
+            console.log('WOW.js initialized successfully');
+            
+            const wowElements = document.querySelectorAll('.wow');
+            console.log('WOW elements found:', wowElements.length);
+        } else {
+            console.warn('WOW.js library not loaded yet');
+        }
+    }
+    
+    // ローディング画面の有無を確認
+    const loadingElement = document.getElementById('loading');
+    const hasLoadingScreen = loadingElement !== null;
+    
+    if (!hasLoadingScreen) {
+        // ローディング画面がないページでは即座に初期化
+        setTimeout(initWOW, 200);
+        console.log('No loading screen - initializing WOW.js immediately');
+    }
     
     // 実際のページ読み込み状況をチェック
     function checkPageLoad() {
@@ -27,211 +60,113 @@ $(document).ready(function() {
         return totalImages > 0 ? (loadedImages / totalImages) * 100 : 100;
     }
     
-    const loadingInterval = setInterval(function() {
-        const currentTime = Date.now();
-        const elapsedTime = currentTime - startTime;
-        
-        // 実際の読み込み状況とシミュレーションを組み合わせ
-        const realProgress = checkPageLoad();
-        
-        // 時間ベースの進行度を計算（5秒で100%になるように調整）
-        const timeBasedProgress = Math.min((elapsedTime / minLoadingTime) * 100, 100);
-        
-        // より現実的な進行度を計算（時間ベースを重視）
-        loadingProgress = Math.min(realProgress * 0.3 + timeBasedProgress * 0.7, 100);
-        
-        // カウント表示を更新
-        $('#loading-percentage').text(Math.floor(loadingProgress));
-        
-        // 70%でロゴのフェードアウト開始
-        if (loadingProgress >= 70 && !logoFadeStarted) {
-            logoFadeStarted = true;
-            $('#loading').addClass('logo-fadeout');
-            console.log('Logo fade out started at', Math.floor(loadingProgress) + '%');
-        }
-        
-        // 100%でローディング画面を非表示（最低表示時間を考慮）
-        if (loadingProgress >= 100 && elapsedTime >= minLoadingTime && !loadingComplete) {
-            loadingComplete = true;
-            clearInterval(loadingInterval);
-            $('#loading-percentage').text('100');
+    // ローディング画面がある場合のみ実行
+    if (hasLoadingScreen) {
+        const loadingInterval = setInterval(function() {
+            const currentTime = Date.now();
+            const elapsedTime = currentTime - startTime;
             
-            setTimeout(function() {
-                $('#loading').fadeOut(1000, function() {
-                    console.log('Loading screen hidden');
-                    // ローディング画面非表示後にWOW.jsを初期化
-                    setTimeout(function() {
-                        initWOW();
-                        // 少し遅延してから再同期
-                        setTimeout(function() {
-                            if (wowInstance) {
-                                wowInstance.sync();
-                                console.log('WOW.js synced after loading screen');
-                                
-                                // 手動でアニメーションをトリガー（デバッグ用）
-                                const wowElements = document.querySelectorAll('.wow');
-                                wowElements.forEach((element, index) => {
-                                    const rect = element.getBoundingClientRect();
-                                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-                                    console.log(`Element ${index} visible:`, isVisible, rect);
-                                    
-                                    if (isVisible && !element.classList.contains('animated')) {
-                                        element.classList.add('animated', 'fadeInUp');
-                                        console.log(`Manually triggered animation for element ${index}`);
-                                    }
-                                });
-                            }
-                        }, 200);
-                    }, 100);
-                });
-            }, 800);
-        }
-        
-    }, 100); // 100ms間隔で更新（少し遅くして滑らかに）
+            const realProgress = checkPageLoad();
+            const timeBasedProgress = Math.min((elapsedTime / minLoadingTime) * 100, 100);
+            loadingProgress = Math.min(realProgress * 0.3 + timeBasedProgress * 0.7, 100);
+            
+            $('#loading-percentage').text(Math.floor(loadingProgress));
+            
+            // 70%でロゴのフェードアウト開始
+            if (loadingProgress >= 70 && !logoFadeStarted) {
+                logoFadeStarted = true;
+                $('#loading').addClass('logo-fadeout');
+                console.log('Logo fade out started at', Math.floor(loadingProgress) + '%');
+            }
+            
+            // 100%でローディング画面を非表示
+            if (loadingProgress >= 100 && elapsedTime >= minLoadingTime && !loadingComplete) {
+                loadingComplete = true;
+                clearInterval(loadingInterval);
+                $('#loading-percentage').text('100');
+                
+                setTimeout(function() {
+                    $('#loading').fadeOut(1000, function() {
+                        console.log('Loading screen hidden');
+                        // ローディング画面非表示後にWOW.jsを初期化
+                        setTimeout(initWOW, 100);
+                    });
+                }, 300);
+            }
+        }, 100);
+    }
     
     // Drawer menu
     $('#js-drawer').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Drawer icon clicked');
         
         const $drawerIcon = $(this);
         const $drawerBg = $('.drawer-bg');
-        
-        // アニメーションの状態を確認
         const isActive = $drawerIcon.hasClass('active');
         
         if (isActive) {
-            // メニューを閉じる
             $drawerBg.removeClass('is-active');
             $drawerIcon.removeClass('active');
-            console.log('Closing drawer menu');
         } else {
-            // メニューを開く
             $drawerIcon.addClass('active');
-            // 少し遅延させてアイコンのアニメーションを先に実行
             setTimeout(function() {
                 $drawerBg.addClass('is-active');
             }, 150);
-            console.log('Opening drawer menu');
         }
     });
     
     $('.drawer-bg').click(function(e) {
         if (e.target === this) {
-            console.log('Drawer background clicked');
             closeDrawerMenu();
         }
     });
     
-    // Close drawer when clicking on links
     $('.drawer__links a').click(function() {
-        console.log('Drawer link clicked');
         closeDrawerMenu();
     });
     
-    // ドロワーメニューを閉じる関数
     function closeDrawerMenu() {
         $('.drawer-bg').removeClass('is-active');
         $('#js-drawer').removeClass('active');
     }
     
-    // WOW.js initialization
-    let wowInstance = null;
-    
-    function initWOW() {
-        if (typeof WOW !== 'undefined') {
-            wowInstance = new WOW({
-                boxClass: 'wow',
-                animateClass: 'animated',
-                offset: 100,
-                mobile: true,
-                live: true,
-                scrollContainer: null
-            });
-            wowInstance.init();
-            console.log('WOW.js initialized');
-            
-            // デバッグ用：WOW要素の数を確認
-            const wowElements = document.querySelectorAll('.wow');
-            console.log('WOW elements found:', wowElements.length);
-            
-            // 各要素の状態を確認
-            wowElements.forEach((element, index) => {
-                console.log(`Element ${index}:`, element.className, element.getBoundingClientRect());
-            });
-        } else {
-            console.error('WOW.js is not loaded');
-        }
-    }
-    
-    // 初期化はローディング画面後に実行（後で移動）
-       // ローディング画面の有無を確認
-    const loadingElement = document.getElementById('loading');
-    if (!loadingElement) {
-        // ローディング画面がないページでは即座に初期化
-        setTimeout(function() {
-            initWOW();
-            console.log('WOW.js initialized immediately (no loading screen)');
-        }, 100);
-    }
     // Swiper initialization
-    console.log('Swiper available:', typeof Swiper !== 'undefined');
-    
-    // Swiper初期化を遅延実行
     setTimeout(function() {
         if (typeof Swiper !== 'undefined') {
-            console.log('Initializing Swiper...');
-            const conceptSwiper = new Swiper('.swiper-concept', {
-                loop: true,
-                // 自動スクロールを無効化
-                autoplay: false,
-                pagination: {
-                    el: '.swiper-concept__pagination',
-                    clickable: false, // クリック機能を無効化
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                slidesPerView: 1,
-                spaceBetween: 30,
-                breakpoints: {
-                    768: {
-                        slidesPerView: 1,
-                        spaceBetween: 30,
+            // Concept Swiper
+            const conceptSwiperElement = document.querySelector('.swiper-concept');
+            if (conceptSwiperElement) {
+                new Swiper('.swiper-concept', {
+                    loop: true,
+                    autoplay: false,
+                    pagination: {
+                        el: '.swiper-concept__pagination',
+                        clickable: false,
                     },
-                    1024: {
-                        slidesPerView: 1,
-                        spaceBetween: 30,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
                     },
-                },
-                on: {
-                    init: function () {
-                        console.log('Swiper initialized successfully');
-                    },
-                    slideChange: function () {
-                        console.log('Slide changed');
-                    }
-                }
-            });
-        
-        // Rooms Swiper (roomsページ用)
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                });
+            }
+            
+            // Rooms Swiper
             const roomsSwiperElement = document.querySelector('.swiper-rooms');
             if (roomsSwiperElement) {
-                const roomsSwiper = new Swiper('.swiper-rooms', {
+                new Swiper('.swiper-rooms', {
                     loop: true,
                     autoplay: {
                         delay: 3500,
                         disableOnInteraction: false,
                         pauseOnMouseEnter: true
                     },
-                    speed: 1600, // フェードをゆっくりに
+                    speed: 1600,
                     pagination: {
                         el: '.swiper-rooms__pagination',
                         clickable: true,
-                        bulletClass: 'swiper-pagination-bullet',
-                        bulletActiveClass: 'swiper-pagination-bullet-active',
                     },
                     slidesPerView: 1,
                     spaceBetween: 0,
@@ -239,26 +174,12 @@ $(document).ready(function() {
                     fadeEffect: {
                         crossFade: true
                     },
-                    // ユーザー操作可にしつつオートプレイ継続
                     allowTouchMove: true,
-                    on: {
-                        init: function () {
-                            console.log('Rooms Swiper initialized successfully');
-                        },
-                        slideChange: function () {
-                            console.log('Rooms slide changed');
-                        }
-                    }
                 });
             }
-        } else {
-            console.error('Swiper is not loaded');
         }
-    }, 1000);
-
+    }, 800);
     
-   
-
     // Modal functionality
     $('.modal-open').click(function() {
         $(this).next('.s-column4__modal--base').fadeIn();
@@ -324,7 +245,6 @@ $(document).ready(function() {
             $('#js-drawer').removeClass('is-color');
         }
         
-        // WOW.jsを再同期（スクロール時に）
         if (wowInstance) {
             wowInstance.sync();
         }
@@ -336,121 +256,6 @@ $(document).ready(function() {
             $('.reservation-btn').addClass('visible');
         } else {
             $('.reservation-btn').removeClass('visible');
-        }
-    });
-    
-    // Image lazy loading
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    imageObserver.unobserve(img);
-                }
-            });
-        });
-        
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    }
-    
-    // Close mobile menu when clicking outside
-    $(document).click(function(e) {
-        if (!$(e.target).closest('.drawer-icon, .drawer-bg').length) {
-            closeDrawerMenu();
-        }
-    });
-    
-    // Page transition effect
-    $('a[href^="/"]').click(function(e) {
-        if (!$(this).hasClass('no-transition')) {
-            e.preventDefault();
-            const href = $(this).attr('href');
-            $('body').fadeOut(300, function() {
-                window.location.href = href;
-            });
-        }
-    });
-    
-    // Video autoplay on mobile
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        $('video').attr('autoplay', false);
-    }
-    
-    // Initialize tooltips
-    $('[data-tooltip]').hover(function() {
-        const tooltip = $(this).data('tooltip');
-        $(this).append('<div class="tooltip">' + tooltip + '</div>');
-    }, function() {
-        $(this).find('.tooltip').remove();
-    });
-    
-    // Parallax effect for hero section (修正版)
-    // パララックス効果を無効化する場合は以下のコメントアウトを解除
-    /*
-    $(window).scroll(function() {
-        const scrolled = $(this).scrollTop();
-        const parallax = $('.mv_bg');
-        const speed = scrolled * 0.3; // 速度を調整
-        
-        // ビューポート内にある場合のみパララックス効果を適用
-        if (scrolled < $(window).height()) {
-            parallax.css('transform', 'translateY(' + speed + 'px)');
-        } else {
-            // ビューポート外に出たら元の位置に戻す
-            parallax.css('transform', 'translateY(0)');
-        }
-    });
-    */
-    
-    // Counter animation
-    function animateCounter(element, target) {
-        let current = 0;
-        const increment = target / 100;
-        const timer = setInterval(function() {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            element.text(Math.floor(current));
-        }, 20);
-    }
-    
-    // Initialize counters when they come into view
-    if ('IntersectionObserver' in window) {
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const counter = $(entry.target);
-                    const target = parseInt(counter.data('target'));
-                    animateCounter(counter, target);
-                    counterObserver.unobserve(entry.target);
-                }
-            });
-        });
-        
-        $('.counter').each(function() {
-            counterObserver.observe(this);
-        });
-    }
-    
-    // Form field animations
-    $('input, textarea').focus(function() {
-        $(this).parent().addClass('focused');
-    }).blur(function() {
-        if (!$(this).val()) {
-            $(this).parent().removeClass('focused');
-        }
-    });
-    
-    // Initialize all form fields
-    $('input, textarea').each(function() {
-        if ($(this).val()) {
-            $(this).parent().addClass('focused');
         }
     });
     
@@ -470,34 +275,12 @@ $(document).ready(function() {
         $('html, body').animate({scrollTop: 0}, 800);
     });
     
-    // Initialize everything
+    // Close mobile menu when clicking outside
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.drawer-icon, .drawer-bg').length) {
+            closeDrawerMenu();
+        }
+    });
+    
     console.log('Showcase Hotel Kasane website initialized');
-    
-    // Drawer menu debug
-    setTimeout(function() {
-        const drawerIcon = document.getElementById('js-drawer');
-        const drawerBg = document.querySelector('.drawer-bg');
-        console.log('Drawer icon found:', drawerIcon);
-        console.log('Drawer background found:', drawerBg);
-        
-        if (drawerIcon && drawerBg) {
-            console.log('Drawer menu elements are ready');
-        } else {
-            console.error('Drawer menu elements are missing');
-        }
-    }, 1000);
-    
-    // Swiper要素の存在確認
-    setTimeout(function() {
-        const swiperElement = document.querySelector('.swiper-concept');
-        const swiperSlides = document.querySelectorAll('.swiper-slide');
-        console.log('Swiper element found:', swiperElement);
-        console.log('Swiper slides found:', swiperSlides.length);
-        
-        if (swiperElement && swiperSlides.length > 0) {
-            console.log('Swiper HTML structure is correct');
-        } else {
-            console.error('Swiper HTML structure is missing or incorrect');
-        }
-    }, 2000);
 });
