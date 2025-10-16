@@ -1,4 +1,4 @@
-name = "kasane-website-new"
+name = "showcasehotel-kasane-web"
 main = "src/index.ts"
 compatibility_date = "2023-12-01"
 compatibility_flags = ["nodejs_compat"]
