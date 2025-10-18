@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "tsc",
+    "build": "tsc && xcopy public dist\\public /E /Y",
     "start": "node dist/index.js",
     "deploy": "npx wrangler deploy"
   },
