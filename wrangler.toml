@@ -1,16 +1,13 @@
 name = "kasane-website-new"
-main = "src/index.ts"
+main = "src/index.tsx"
 compatibility_date = "2023-12-01"
 compatibility_flags = ["nodejs_compat"]
 
-
-
-[assets]
-directory = "./public"
-binding = "ASSETS"
+# 静的ファイル配信を有効化
+[site]
+bucket = "public"
 
 [vars]
-STRAPI_URL = "https://<your-strapi-cloud>.api"  # 環境に合わせて変更
-STRAPI_API_TOKEN = ""  # 管理画面で発行した API Token
-CLIENT_URL = "https://your-frontend-site"  # Preview 用
-PREVIEW_SECRET = "random-preview-secret"
+ENVIRONMENT = "production"
+STRAPI_URL = "https://your-strapi-cloud.strapiapp.com"
+STRAPI_API_TOKEN = ""
